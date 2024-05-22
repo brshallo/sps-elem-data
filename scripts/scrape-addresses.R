@@ -16,29 +16,33 @@ css_selector_address <- "address"
 # Find all the school blocks on the page
 school_blocks <- html_page %>% html_elements(".list-item")
 
-# Initialize an empty list to store the extracted information
-schools_data <- list()
-
-# Loop through each school block and extract the title and address
-for (i in seq_along(school_blocks)) {
-  school_name <- school_blocks[i] %>% 
+# Function to loop through each school block and extract the title and address
+extract_school_info <- function(school_block) {
+  school_name <- school_block %>% 
     html_element(css_selector_title) %>% 
     html_text(trim = TRUE)
   
-  school_address <- school_blocks[i] %>% 
+  school_address <- school_block %>% 
     html_element(css_selector_address) %>% 
-    html_text(trim = TRUE) %>% 
-    str_replace_all("\n|<br>", ", ") # Replace newlines and <br> with commas for address formatting
+    html_text(trim = TRUE)
   
-  # Append the extracted information to the list
-  schools_data[[i]] <- list(name = school_name, address = school_address)
+  tibble(name = school_name, address = school_address)
 }
 
-# Convert the list to a data frame
-schools_df <- bind_rows(schools_data)
+clean_address <- function(address) {
+  address %>%
+    # Remove carriage returns
+    str_replace_all("\r", "") %>%
+    # Remove "About" followed by any text until the end
+    str_replace("About.*$", "") %>%
+    # Remove any leading or trailing whitespace
+    str_trim()
+}
 
-# Print the result
-print(schools_df)
-schools_df %>% 
-  filter(str_detect(str_to_lower(name), "elementary|k-8"))
-# 
+schools_df <- map(school_blocks, extract_school_info) %>% 
+  bind_rows() %>% 
+  filter(str_detect(str_to_lower(name), "elementary|k-8")) %>% 
+  mutate(address = clean_address(address))
+
+
+write_csv(schools_df, here::here("data", "schools-df.csv"))
