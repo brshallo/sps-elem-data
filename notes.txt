@@ -3,4 +3,5 @@
 * Can scrape king county parcel viewer based on parcelid
 * List of seattle schools by address: "https://www.seattleschools.org/schools/"
 * Now need parcel numbers by address, looks like I was able to download that here: https://geo.wa.gov/datasets/wa-geoservices::current-parcels/explore?location=47.661018%2C-122.293356%2C16.17 
-
+* Enrollment numbers: https://en.wikipedia.org/wiki/List_of_schools_of_the_Seattle_School_District
+* Data download's from King County Assessments: https://info.kingcounty.gov/assessor/datadownload/default.aspx 
