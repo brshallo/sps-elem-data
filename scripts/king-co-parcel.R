@@ -1,3 +1,5 @@
+library(tidyverse)
+
 # downloaded from here: https://gis-kingcounty.opendata.arcgis.com/search?tags=property_OpenData
 # Specifically: https://gis-kingcounty.opendata.arcgis.com/documents/4a5915991c4e4bc6b701117859da3f20/about
 parcel_address_data <- foreign::read.dbf("C:/Users/bshallow/Downloads/parcel_address/parcel_address/parcel_address.dbf")
@@ -7,7 +9,7 @@ king_co_parcel <- parcel_address_data %>%
   # filter(as.character(CTYNAME) == "SEATTLE") %>% 
   # glimpse()
 
-king_co_parcel %>% 
+king_co_parcel %>% glimpse()
   count(is.na(MAJOR))
 
 # still have 11 record mismatches
@@ -18,3 +20,10 @@ data_schools %>%
   filter(is.na(MAJOR)) %>%
   glimpse()
   
+
+
+## From King County Assessor office: https://info.kingcounty.gov/assessor/datadownload/default.aspx 
+ki_co_assessor <- read_csv(here::here("data", "EXTR_CommBldg.csv"))
+ki_co_assessor %>% 
+  filter(Minor == "0400", Major == "036900") %>% 
+  glimpse()

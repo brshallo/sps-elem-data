@@ -23,5 +23,7 @@ data_schools %>%
   filter(is.na(PARCEL_ID_NR)) %>%
   glimpse()
 
-data_parcels %>% 
-  filter(PARCEL_ID_NR == "033-9550202395")
+parcel_info %>% 
+  filter(PARCEL_ID_NR == "033-0369000400") %>% glimpse()
+
+c("Lawton Elementary" = "4017 2016TH AVE W")
