@@ -16,8 +16,13 @@ school_enrollment <- tables[1:2] %>%
   purrr::map(html_table, fill = TRUE) %>%
   map(set_names, c("school", "established", "neighborhood", "nickname", "spring_2023_enrollment")) %>% 
   map(~mutate(.x, established = str_remove_all(established, "\\[.*?\\]") %>% as.integer())) %>% 
-  bind_rows() 
+  bind_rows() %>% 
+  mutate(name = str_remove_all(school, "\\[.*?\\]") %>% str_replace("B\\.F\\.", "Benjamin Franklin") %>%  str_replace("Int'l", "International"))
 
-# data_schools$name %>% str_replace(" Elementary", "") %>% str_replace(" K-8", "")
+
+school_info %>% 
+  left_join(school_enrollment) %>% 
+  count(is.na())
+
 # 
-# school_enrollment$school %>% str_remove_all("\\[.*?\\]") %>% str_replace("B\\.F\\.", "Benjamin Franklin") %>%  str_replace("Int'l", "International")
+

@@ -57,4 +57,5 @@ school_info <- bind_rows(
     semi_join(parcel_info)
 ) %>% 
   arrange(name) %>% 
-  left_join(parcel_info)
+  left_join(parcel_info) %>% 
+  mutate(name = str_replace(name, " Elementary", "") %>% str_replace(" K-8", ""))
