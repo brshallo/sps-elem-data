@@ -17,12 +17,26 @@ school_enrollment <- tables[1:2] %>%
   map(set_names, c("school", "established", "neighborhood", "nickname", "spring_2023_enrollment")) %>% 
   map(~mutate(.x, established = str_remove_all(established, "\\[.*?\\]") %>% as.integer())) %>% 
   bind_rows() %>% 
-  mutate(name = str_remove_all(school, "\\[.*?\\]") %>% str_replace("B\\.F\\.", "Benjamin Franklin") %>%  str_replace("Int'l", "International"))
+  mutate(name = 
+           str_remove_all(school, "\\[.*?\\]") %>% 
+           str_replace("B\\.F\\.", "Benjamin Franklin") %>%  
+           str_replace("Int'l", "International") %>% 
+           str_remove_all("[[:punct:]]") %>% 
+           str_to_lower()
+         )
 
 
 school_info %>% 
   left_join(school_enrollment) %>% 
-  count(is.na())
+  filter(is.na(spring_2023_enrollment)) %>% 
+  pull(name)
 
-# 
+# remove punctuation in both and make all lower case
+# PK-8 should be removed
+# change name from "Coe" to "Franz Coe"
+
+# No info on cascade parent partnership
+school_enrollment %>% 
+  anti_join(school_info)
+
 

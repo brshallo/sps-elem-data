@@ -9,7 +9,7 @@ king_co_parcel <- parcel_address_data %>%
   # filter(as.character(CTYNAME) == "SEATTLE") %>% 
   # glimpse()
 
-king_co_parcel %>% glimpse()
+king_co_parcel %>% 
   count(is.na(MAJOR))
 
 # still have 11 record mismatches

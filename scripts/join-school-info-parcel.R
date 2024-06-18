@@ -58,4 +58,12 @@ school_info <- bind_rows(
 ) %>% 
   arrange(name) %>% 
   left_join(parcel_info) %>% 
-  mutate(name = str_replace(name, " Elementary", "") %>% str_replace(" K-8", ""))
+  mutate(name_orig = name,
+         name = 
+           str_replace(name, " Elementary", "") %>% 
+           str_replace(" K-8", "") %>% 
+           str_replace(" PK-8", "") %>% 
+           str_remove_all("[[:punct:]]") %>% 
+           str_to_lower() %>% 
+           str_replace("coe", "frantz coe")
+         )
