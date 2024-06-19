@@ -9,42 +9,42 @@ king_co_parcel <- parcel_address_data %>%
   # filter(as.character(CTYNAME) == "SEATTLE") %>% 
   # glimpse()
 
-king_co_parcel %>% 
-  count(is.na(MAJOR))
-
-# still have 11 record mismatches
-data_schools %>% 
-  mutate(ZIP5 = str_sub(address, -5),
-         ADDR_FULL = convert_address(address)) %>% 
-  left_join(king_co_parcel) %>% 
-  filter(is.na(MAJOR)) %>%
-  glimpse()
+# king_co_parcel %>% 
+#   count(is.na(MAJOR))
+# 
+# # still have 11 record mismatches
+# data_schools %>% 
+#   mutate(ZIP5 = str_sub(address, -5),
+#          ADDR_FULL = convert_address(address)) %>% 
+#   left_join(king_co_parcel) %>% 
+#   filter(is.na(MAJOR)) %>%
+#   glimpse()
   
 
 
 ## From King County Assessor office: https://info.kingcounty.gov/assessor/datadownload/default.aspx 
 ki_co_assessor <- read_csv(here::here("data", "EXTR_CommBldg.csv"))
-ki_co_assessor %>% 
-  filter(Minor == "0400", Major == "036900") %>% 
-  glimpse()
-
-school_info %>% 
-  left_join(
-    ki_co_assessor %>% 
-      mutate(ORIG_PARCEL_ID = paste0(Major, Minor))
-  )
-
-ki_co_assessor %>% 
-  mutate(ORIG_PARCEL_ID = paste0(Major, Minor)) %>% 
-  semi_join(school_info) %>% 
-  group_by(ORIG_PARCEL_ID) %>% 
-  filter(n() > 1) %>% 
-  arrange(ORIG_PARCEL_ID) %>% 
-  View()
+# ki_co_assessor %>% 
+#   filter(Minor == "0400", Major == "036900") %>% 
+#   glimpse()
+# 
+# school_info %>% 
+#   left_join(
+#     ki_co_assessor %>% 
+#       mutate(ORIG_PARCEL_ID = paste0(Major, Minor))
+#   )
+# 
+# ki_co_assessor %>% 
+#   mutate(ORIG_PARCEL_ID = paste0(Major, Minor)) %>% 
+#   semi_join(school_info) %>% 
+#   group_by(ORIG_PARCEL_ID) %>% 
+#   filter(n() > 1) %>% 
+#   arrange(ORIG_PARCEL_ID) %>% 
+#   View()
 
 
 # Have the square footage joined on now... just need to add the enrollment numbers
-ki_co_assessor %>% 
+school_co_info <- ki_co_assessor %>% 
   mutate(ORIG_PARCEL_ID = paste0(Major, Minor)) %>% 
   semi_join(school_info) %>% 
   arrange(ORIG_PARCEL_ID) %>% 
@@ -56,4 +56,4 @@ ki_co_assessor %>%
                         )
                    ),
             across(c(BldgGrossSqFt, BldgNetSqFt), sum)) %>% 
-  right_join(school_info) %>% glimpse()
+  right_join(school_info)

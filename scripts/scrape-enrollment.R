@@ -26,17 +26,15 @@ school_enrollment <- tables[1:2] %>%
          )
 
 
-school_info %>% 
-  left_join(school_enrollment) %>% 
-  filter(is.na(spring_2023_enrollment)) %>% 
-  pull(name)
+school_co_info %>% 
+  left_join(school_enrollment)
 
 # remove punctuation in both and make all lower case
 # PK-8 should be removed
 # change name from "Coe" to "Franz Coe"
 
-# No info on cascade parent partnership
-school_enrollment %>% 
-  anti_join(school_info)
+# # No info on cascade parent partnership
+# school_enrollment %>% 
+#   anti_join(school_co_info)
 
 
