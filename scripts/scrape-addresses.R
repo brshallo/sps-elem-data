@@ -44,5 +44,4 @@ schools_df <- map(school_blocks, extract_school_info) %>%
   filter(str_detect(str_to_lower(name), "elementary|k-8")) %>% 
   mutate(address = clean_address(address))
 
-
-write_csv(schools_df, here::here("data", "schools-df.csv"))
+write_csv(schools_df, here::here("data-output", "schools-addrs.csv"))

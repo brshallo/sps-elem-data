@@ -25,16 +25,4 @@ school_enrollment <- tables[1:2] %>%
            str_to_lower()
          )
 
-
-school_co_info %>% 
-  left_join(school_enrollment)
-
-# remove punctuation in both and make all lower case
-# PK-8 should be removed
-# change name from "Coe" to "Franz Coe"
-
-# # No info on cascade parent partnership
-# school_enrollment %>% 
-#   anti_join(school_co_info)
-
-
+write_csv(school_enrollment, here::here("data-output", "schools-enrollment.csv"))

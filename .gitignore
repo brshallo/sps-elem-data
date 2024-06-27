@@ -49,5 +49,4 @@ po/*~
 rsconnect/
 
 # data files
-data/Current_Parcels_8903521118267267315.csv
-data/*
+data-raw/*

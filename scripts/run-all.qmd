@@ -1,0 +1,144 @@
+---
+title: "Load data from sources"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+
+# Scrape school addresses
+
+```{r}
+# source(here::here("scripts", "scrape-addresses.R"))
+```
+
+# Scrape school enrollment
+
+```{r}
+# source(here::here("scripts", "scrape-enrollment.R"))
+```
+
+# Join parcel info and school addresses
+
+```{r}
+# This data was downloaded from here:
+# https://geo.wa.gov/datasets/wa-geoservices::current-parcels/explore?location=47.661018%2C-122.293356%2C16.17
+# Link may not work, so go here and then download: https://geo.wa.gov/maps/98029557c8114462aaec982de09d7824
+# but it's a large file so I didn't include it in git
+data_schools <- read_csv(here::here("data-output", "schools-addrs.csv"))
+data_parcels <- read_csv(here::here("data-raw", "Current_Parcels_8903521118267267315.csv"))
+
+parcel_info <- data_parcels %>% 
+  filter(COUNTY_NM == "King", SITUS_CITY_NM == "SEATTLE")
+
+convert_address <- function(address){
+  str_replace_all(address, "[[:punct:]]", "") %>% 
+    str_replace("\\n.*$", "") %>% 
+    str_to_upper()
+}
+
+# # These schools have the wrong address on the website (or at least different from what's on the parcel file)
+# data_schools %>%
+#   mutate(SITUS_ZIP_NR = str_sub(address, -5),
+#          SITUS_ADDRESS = convert_address(address)) %>%
+#   left_join(parcel_info) %>%
+#   filter(is.na(PARCEL_ID_NR)) %>%
+#   select(name, SITUS_ADDRESS)
+
+# Found correct address by looking up incorrect addresses at tool: https://geo.wa.gov/maps/98029557c8114462aaec982de09d7824
+# Clicking on card of info on each FIPS_NR on each item brought-up the address as in the parcel map
+missing_school_addresses <- list("Lawton Elementary" = "4017 26TH AVE W",
+  "Leschi Elementary" = "3233 E SPRUCE ST",
+  "McDonald International Elementary" = "120 NE 54TH ST",
+  "Rainier View Elementary" = "11236 BEACON AVE S",
+  "Sand Point Elementary" = "6200 60TH AVE NE",
+  "South Shore PK-8" = "8601 RAINIER AVE S",
+  "Stevens Elementary" = "1800 E GALER ST",
+  "Thornton Creek Elementary" = "7725 43RD AVE NE",
+  "TOPS K-8" = "2515 BOYLSTON AVE E",
+  "Viewlands Elementary" = "10505 3RD AVE NW",
+  "Whittier Elementary" = "7501 13TH AVE NW"
+  ) %>% 
+  enframe() %>% 
+  mutate(SITUS_ADDRESS = map_chr(value, `[`)) %>% 
+  select(-value)
+
+school_info <- bind_rows(
+  data_schools %>% 
+    mutate(SITUS_ZIP_NR = str_sub(address, -5),
+           SITUS_ADDRESS = convert_address(address)) %>% 
+    anti_join(parcel_info) %>% 
+    select(-SITUS_ADDRESS) %>% 
+    left_join(missing_school_addresses),
+  
+  data_schools %>% 
+    mutate(SITUS_ZIP_NR = str_sub(address, -5),
+           SITUS_ADDRESS = convert_address(address)) %>% 
+    semi_join(parcel_info)
+) %>% 
+  arrange(name) %>% 
+  left_join(parcel_info) %>% 
+  mutate(name_orig = name,
+         name = 
+           str_replace(name, " Elementary", "") %>% 
+           str_replace(" K-8", "") %>% 
+           str_replace(" PK-8", "") %>% 
+           str_remove_all("[[:punct:]]") %>% 
+           str_to_lower() %>% 
+           str_replace("coe", "frantz coe")
+         )
+```
+
+# Join more parcel info (e.g. sq footage)
+
+```{r}
+## From King County Assessor office: https://info.kingcounty.gov/assessor/datadownload/default.aspx 
+ki_co_assessor <- read_csv(here::here("data-raw", "EXTR_CommBldg.csv"))
+
+# Have the square footage joined on now... just need to add the enrollment numbers
+school_co_info <- ki_co_assessor %>% 
+  mutate(ORIG_PARCEL_ID = paste0(Major, Minor)) %>% 
+  semi_join(school_info) %>% 
+  arrange(ORIG_PARCEL_ID) %>% 
+  group_by(ORIG_PARCEL_ID) %>% 
+  summarise(across(c(YrBuilt, EffYr), 
+                   list(wt = ~round(sum(.x * BldgNetSqFt) / sum(BldgNetSqFt), 0),
+                        main = ~mean(
+                          ifelse(BldgNetSqFt == max(BldgNetSqFt), .x, NA), na.rm = TRUE)
+                        )
+                   ),
+            across(c(BldgGrossSqFt, BldgNetSqFt), sum)) %>% 
+  right_join(school_info)
+
+## UNUSED other files
+# # downloaded from here: https://gis-kingcounty.opendata.arcgis.com/search?tags=property_OpenData
+# # Specifically: https://gis-kingcounty.opendata.arcgis.com/documents/4a5915991c4e4bc6b701117859da3f20/about
+```
+
+# Join enrollment numbers
+```{r}
+school_enrollment <- read_csv(here::here("data-output", "schools-enrollment.csv"))
+
+final_data <- school_co_info %>% 
+  left_join(school_enrollment)
+```
+# write out data
+
+```{r}
+write_csv(final_data, here::here("data-output", "school-info-parcel-enrollment.csv"))
+```
+
+
+# Notes
+
+No info on cascade parent partnership
+```{r}
+# school_enrollment %>% 
+#   anti_join(school_co_info)
+
+```
+
+
