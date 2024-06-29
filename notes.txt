@@ -16,3 +16,7 @@ Review of articles:
 
 * Decision pushed back until Fall: https://www.kuow.org/stories/seattle-public-schools-will-have-to-wait-until-fall-to-learn-which-schools-will-close
 * 2026-06-25 agenda: https://seattleschools.sharepoint.com/sites/SPSBoardOffice-O365/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FSPSBoardOffice%2DO365%2FShared%20Documents%2FSchool%20Board%2FBoard%20Meetings%2F2023%2D24%2F2024%2D06%2D26%20Special%20Meeting%2F20240626%5FAgenda%5FBudget%20Hearing%2Epdf&parent=%2Fsites%2FSPSBoardOffice%2DO365%2FShared%20Documents%2FSchool%20Board%2FBoard%20Meetings%2F2023%2D24%2F2024%2D06%2D26%20Special%20Meeting&p=true&ga=1 (see youtube video on channel for items used in criteria)
+* Look for pdf of pres on criteria from 6/27 meeting
+* School site info on SPS' site requires getting authorization to access: https://www.seattleschools.org/departments/enrollment-planning/enrollment-data/maps/
+* Enrollment data by year is available on wa.gov website: https://data.wa.gov/education/Report-Card-Enrollment-2023-24-School-Year/q4ba-s3jc/about_data
+* Good source on data: https://ospi.k12.wa.us/data-reporting/data-portal?title=enrollment&field_years1_target_id=All&field_data_domain_target_id=All&field_level_of_aggregation_target_id=All&field_grade_span_target_id=All
