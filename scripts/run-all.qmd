@@ -153,6 +153,6 @@ No info on cascade parent partnership
 # School facilities info: https://www.seattleschools.org/wp-content/uploads/2021/09/2021_Facilities_Master_Plan_Update.pdf
 ## school facilities ratings available pg 32-34 here: 
 ## Actual capcity vs right-size starts pg 42
-
+## Seattle times article: https://www.seattletimes.com/seattle-news/education/new-data-gives-insight-into-which-seattle-schools-could-close/
 ```
 
