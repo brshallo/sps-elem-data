@@ -20,3 +20,6 @@ Review of articles:
 * School site info on SPS' site requires getting authorization to access: https://www.seattleschools.org/departments/enrollment-planning/enrollment-data/maps/
 * Enrollment data by year is available on wa.gov website: https://data.wa.gov/education/Report-Card-Enrollment-2023-24-School-Year/q4ba-s3jc/about_data
 * Good source on data: https://ospi.k12.wa.us/data-reporting/data-portal?title=enrollment&field_years1_target_id=All&field_data_domain_target_id=All&field_level_of_aggregation_target_id=All&field_grade_span_target_id=All
+* P223 monthly enrollment reporting: https://www.seattleschools.org/departments/dots/data-reporting/enrollment-reporting-p223/ 
+
+--- looks like students only dropped 60... compared to 1k the prior year.
