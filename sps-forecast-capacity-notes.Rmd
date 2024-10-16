@@ -7,17 +7,17 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
-Seattle Public Schools (SPS) gave a well resourced school update on June 26th 2024 where they recommended investigating a plan for elementary school closures. As part of justification for that plan they pointed at falling enrollment numbers and low capacity percentages for elementary schools. The powerpoint from that June 2024 meeting can be found [here](https://www.documentcloud.org/documents/24784284-sps-wrs-update-6_26_24-final-copy-1?responsive=1&title=1). Here are a few notes on those points. 
+Seattle Public Schools (SPS) gave a well resourced school update on June 26th 2024 where they recommended investigating a plan for elementary school closures. As part of the explanation for that plan they pointed at falling enrollment numbers and low capacity percentages for elementary schools. The powerpoint from that June 2024 meeting can be found [here](https://www.documentcloud.org/documents/24784284-sps-wrs-update-6_26_24-final-copy-1?responsive=1&title=1). A few notes on those points: 
 
 * Enrollment numbers for 2024-2025 appear not to have dropped as much as was forecasted in that meeting earlier in the year.
-* Elementary School capacity numbers would not look nearly as low if using the "right sized capacity" numbers from the school Master Plan document. I am unclear of the context of where the capacity numbers presented in June 2024 came from -- especially given that they appear to have been derived in January 2022 and yet are very different from the numbers published in the September 2021 Master Plan.
+* There may be some open questions regarding the way percent capacity utilization is calculated
 
 # Did enrollment actually drop in 2024-2025 school year?
 
-SPS had contracted Educatonal Data Solutions, LLC to forecast enrollment numbers (notes from that effort found [here](https://www.seattleschools.org/wp-content/uploads/2024/06/Seattle_Enrollment-Demogr-trends_March_2024_ada.pdf)). At the June public meeting SPS displayed this chart of enrollment forecasts:
+SPS had contracted Educational Data Solutions, LLC to forecast enrollment numbers (notes from that effort found [here](https://www.seattleschools.org/wp-content/uploads/2024/06/Seattle_Enrollment-Demogr-trends_March_2024_ada.pdf)). At the June public meeting SPS displayed this chart of enrollment forecasts:
 
 ```{r}
 knitr::include_graphics(here::here("screenshots", "forecasts-data-solutions.png"))
@@ -29,12 +29,81 @@ If you take the difference in 2023 actual enrollment, you can see for 2024-2025 
 
 The numbers I reference are based on the September monthly enrollment P223 reports that can be found for [sep-2023](https://www.seattleschools.org/wp-content/uploads/2023/09/P223_Sep23.pdf) and [sep-2024](https://www.seattleschools.org/wp-content/uploads/2024/09/P223_Sep24.pdf). The forecasts may be of slightly different student count figures (e.g. different times of year or different ways of tabulating counts). However this likely doesn't change the takeaway that enrollment dropped less than expected because for comparisons of *changes* in student enrollment, p223 based year-over-year September enrollment changes have historically offered a decent comparative proxy to what shows-up on official end-of-year numbers (especially as a comparative measure about year over year change). For example the drop from [September 2022](https://www.seattleschools.org/wp-content/uploads/2022/09/P223_Sep22.pdf) to September 2023 was much much larger than this year's drop. 
 
-It's also worth noting also that SPS contracted another firm, Flo Analytics, as a second firm to do forecasting ([report](https://www.seattleschools.org/wp-content/uploads/2024/07/Seattle-PS-2024-25-to-2033-34-enrollment-forecast-document.pdf)). They forecasted a drop of 552 students with a range of 27 to 976 students. The actual drop may fall within the range of Flo Analytics' forecasts. (However these forecasts were not shared in public meetings or presentationsduring the time when SPS was announcing their initial school closure plans.)
+It's also worth noting also that SPS contracted another firm, Flo Analytics, as a second firm to do forecasting ([report](https://www.seattleschools.org/wp-content/uploads/2024/07/Seattle-PS-2024-25-to-2033-34-enrollment-forecast-document.pdf)). They forecasted a drop of 552 students with a range of 27 to 976 students. The actual drop may fall within the range of Flo Analytics' forecasts. (However these forecasts were not shared in public meetings or presentations during the time when SPS was announcing their initial school closure plans.)
 
-# The formula for "% Capacity" seems to have changed between years
+# Notes on % capacity utilization
 
-One other expalanation for the need to close schools was the seemingly low capacity rates of elementary schools. The capacity rates by school are included in the Appendix of the June 2024 presentation. A copy of these tables can be found from a "Sazan Envrionmental Services Facility Assessment Report" conducted in January 2022 [here](https://www.seattleschools.org/wp-content/uploads/2024/09/sazan-scores-capacity.pdf) however this table doesn't put these numbers in context. Other reports by Sazan seem more concerned on Building Condition, Learning Environment, and Accessibility Evaluation (see SPS' website [here](https://www.seattleschools.org/departments/capital-projects-and-planning/facilities-master-plan/#gd71995336887)). Strangely, these January 2022 capacity numbers are very different from SPS' September 2021 Facilities Master Plan document which appears like a more authoritative source on the subject (given it is an actual report and not just isolated tables).
+One other explanation for the need to close schools was the low capacity rates of elementary schools. Slide 33 in the June presentation points to elementary schools being at only 65% capacity.
 
-Skimming elementary school the number of students for a school to be at "capacity" looks to be about ~25% higher on the Appendix of the June 2024 presentation compared to what can be found on page 42 of the September 2021 Master Plan document. What's the effect? Depending on how many students are deemed appropriate for a school determines the percent capacity of schools. Using higher "right capacity" numbers represents schools as being more empty.
+```{r}
+knitr::include_graphics(here::here("screenshots", "pres-capacity-note.png"))
+```
 
-**NOTE THAT THESE ARE JUST A FEW INITIAL NOTES THAT NEED TO BE INVESTIGATED MORE CAREFULLY**
+The capacity rates by school are included in the Appendix of the June 2024 presentation. A copy of these tables can be found from a "Sazan Envrionmental Services Facility Assessment Report" from January 2022 [here](https://www.seattleschools.org/wp-content/uploads/2024/09/sazan-scores-capacity.pdf). Other reports by Sazan are concerned with Building Condition, Learning Environment, and Accessibility Evaluation (see SPS' website [here](https://www.seattleschools.org/departments/capital-projects-and-planning/facilities-master-plan/#gd71995336887)). However the Master Plan document found on SPS [Building Conditions](https://www.seattleschools.org/departments/capital-projects-and-planning/facilities-master-plan/#gd71995336887) page [here](https://www.seattleschools.org/wp-content/uploads/2021/09/2021_Facilities_Master_Plan_Update.pdf) publishes different capacity numbers than those in the Sazan document that was presented in June of 2024. These capacity numbers are quite different and may not be directly comparable between schools for the following reasons:
+
+* The Master plan doc looks like it includes both Pre-K and K-5 whereas the Sazan doc is only for K-5 kids in those schools
+* Relatedly the Master Plan doc separates out K-8 schools to a different group whereas the Sazan doc references capacity just for K-5 (presumably) for K-8 schools
+* The Master plan doc capacity numbers are explicitly based on permanent structures and do not take into account temporary structures like portables. The Sazan doc does not specify whether the capacity numbers are based on permanent or permanent and temporary structures
+
+Hence to get a list of schools where these docs' different "capacity numbers" could be compared I filtered to just schools that did not have Pre-K and did not have any temporary structures and that were not K-8 and did not have any issues loading data. This left me with just 13 schools to compare (and again, I might just be missing something here and these may not be appropriate comparisons for some reason). See bottom of doc.
+
+Taking a weighted average across these 13 schools the capacity numbers were ~11% higher in the Sazan doc (/June 2024 presentation) compared to what is shown on the Master Plan doc. If this ratio is applied across schools, the 11% higher capacity equates to ~7 percentage point lower utilization. I.e. using the Master Doc rather than the Sazan doc (that was presented in June 2024) would mean 72% capacity utilization of elementary schools vs 65%.
+
+Again, *it could be the case* that there are good reasons SPS used the Sazan doc rather than the Master plan doc for capacity or that there is something that I missed or some gap in logic in my notes above that I am. **THESE ARE JUST A FEW INITIAL NOTES THAT NEED TO BE INVESTIGATED MORE CAREFULLY**
+
+Below are the code and calculations to get the two different total capacity numbers across the 13 comparable schools.
+
+```{r}
+library(tidyverse)
+
+# copied data from pdf into "capacity-m-raw-data.csv"
+# data_m_raw <- read_csv(here::here("data-raw", "capacity-m-raw-data.csv"))
+# 
+# data_m_raw %>%
+#   separate(Raw, into = c("School Name", "rest"), sep = " (?=\\d)", extra = "merge") %>%
+#   separate(rest,
+#            into = c("perm_classrooms", "portable_classrooms", "prek", "cc", "sc", "rs", "otpt", "ell", "clab", "ms", "art", "o", "net_permanent_classrooms", "net_permanent_right_sized_capacity", "actual_enrollment_oct_2020", "utilization"),
+#            sep = " ") %>%
+#   janitor::clean_names() %>%
+#   filter(!(row_number() %in% c(36, 54))) %>%
+#   write_csv(here::here("data-raw", "capacity_master2.csv"))
+
+
+data_m <- read_csv(here::here("data-raw", "capacity_master2.csv")) %>%
+  filter(portable_classrooms == 0, prek == 0)
+
+# Had chatgpt copy data out of pdf to this .csv for me 
+# (chatgpt struggled with other pdf which is why other pdf was loaded in manually)
+data_s <- read_csv(here::here("data-raw", "capacity-sazan.csv")) %>% 
+  janitor::clean_names()
+
+data_key <- read_csv(here::here("data-raw", "Updated_Matched_School_Names.csv")) %>% 
+  janitor::clean_names() %>% 
+  select(-x1, school_name_m = right_sized, school_name_s = matched_value)
+
+ind_schools <- left_join(
+  left_join(data_m, data_key, by = c("school_name" = "school_name_m")) %>% 
+    select(-school_name),
+  
+  left_join(data_s, data_key, by = c("school_name" = "school_name_s")) %>% 
+    select(-school_name)
+) %>% 
+  select(common_name, capacity_master = net_permanent_right_sized_capacity, capacity_sazan = capacity)
+
+print("individual school capacity numbers")
+ind_schools %>% 
+  knitr::kable()
+
+print("aggregated capacity numbers across comparable 13 schools")
+ind_schools %>% 
+  summarise(capacity_master = sum(capacity_master),
+            capacity_sazan = sum(capacity_sazan),
+            n = n()) %>% 
+  knitr::kable()
+
+```
+
+
+* "11% lower capacity in Master compared to Sazan doc" comes from (5898 - 5299) / 5898
+* "72% capacity utilization vs 65% if applying this across all schools" comes from (5898 * 0.65) / 5299
+
